@@ -3,7 +3,30 @@ const gameHeight = 15;
 let mines = 30;
 let minefield;
 
-const resetGame = () => {
+const generateSquareHTML = (text, x, y) => {
+  let colorStyle = "";
+  switch (text) {
+    case 1:
+      colorStyle = "color:blue";
+      break;
+
+    case 2:
+      colorStyle = "color:green";
+      break;
+    case 3:
+      colorStyle = "color:red";
+      break;
+    case 4:
+      colorStyle = "color:purple";
+      break;
+    default:
+      break;
+  }
+
+  return `<div class=\"mine-section\" id="h${y}w${x}" style="grid-area:h${y}w${x};${colorStyle}">${text}</div>`;
+};
+
+const renderGame = () => {
   let gameArea = document.getElementById("game-area");
   let gameHtml = "";
   let gameAreaStyle = "";
@@ -11,26 +34,7 @@ const resetGame = () => {
   minefield.forEach((row, yIndex) => {
     let gameLine = "";
     row.forEach((square, xIndex) => {
-      let colorStyle = "";
-      switch (square) {
-        case 1:
-          colorStyle = "color:blue";
-          break;
-
-        case 2:
-          colorStyle = "color:green";
-          break;
-        case 3:
-          colorStyle = "color:red";
-          break;
-        case 4:
-          colorStyle = "color:purple";
-          break;
-        default:
-          break;
-      }
-
-      gameHtml += `<div class=\"mine-section\" id="h${yIndex}w${xIndex}" style="grid-area:h${yIndex}w${xIndex};${colorStyle}">${square}</div>`;
+      gameHtml += generateSquareHTML(square, xIndex, yIndex);
       gameLine += `h${yIndex}w${xIndex} `;
     });
     gameAreaStyle += `"${gameLine.trim()}" `;
@@ -58,7 +62,7 @@ const addHintsToMinefieldObject = (minefieldObject, coordinates) => {
 
 const setMinesInMinefieldObject = () => {
   minefield = [];
-  let originalMines = mines;
+  let minesLeft = mines;
   let squares = gameWidth * gameHeight;
   for (let i = 0; i < gameHeight; i++) {
     let minefieldRow = new Array(gameWidth).fill("");
@@ -67,20 +71,21 @@ const setMinesInMinefieldObject = () => {
 
   minefield.forEach((row, yIndex) => {
     row.forEach((square, xIndex) => {
-      let likelihoodOfPlacingMine = mines / squares;
-      let cofactor = Math.random();
-      let placeMine = likelihoodOfPlacingMine >= cofactor;
-      if (placeMine) {
+      let likelihoodOfPlacingMine = minesLeft / squares;
+      if (likelihoodOfPlacingMine >= Math.random()) {
         minefield[yIndex][xIndex] = "X";
         minefield = addHintsToMinefieldObject(minefield, {
           x: xIndex,
           y: yIndex
         });
-        mines--;
+        minesLeft--;
       }
       squares--;
     });
   });
-  mines = originalMines;
-  resetGame();
+};
+
+startGame = () => {
+  setMinesInMinefieldObject();
+  renderGame();
 };
