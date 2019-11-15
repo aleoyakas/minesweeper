@@ -8,11 +8,21 @@
     <link href="./main.css" rel="stylesheet" />
   </head>
   <body>
-    <input id="height" type="number" min="3" max="50" value="25" />
-    <input id="width" type="number" min="3" max="50" value="25" />
-    <input id="mines" type="number" min="3" max="50" value="50" />
+    <label for="height">Height</label>
+    <input
+      name="height"
+      id="height"
+      type="number"
+      min="3"
+      max="50"
+      value="25"
+    />
+    <label for="width">Width</label>
+    <input name="width" id="width" type="number" min="3" max="50" value="25" />
+    <label for="Mines">Mines</label>
+    <input name="mines" id="mines" type="number" min="3" max="50" value="50" />
+    <button onClick="startGame()">Start Game</button>
     <main id="game-area"></main>
-    <button onClick="startGame()">Render</button>
     <script type="text/javascript" src="./main.js"></script>
   </body>
 </html>
