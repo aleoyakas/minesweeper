@@ -1,6 +1,6 @@
-const gameWidth = 15;
-const gameHeight = 15;
-let mines = 30;
+let gameWidth;
+let gameHeight;
+let mines;
 let minefield;
 
 const generateSquareHTML = (text, x, y) => {
@@ -86,6 +86,10 @@ const setMinesInMinefieldObject = () => {
 };
 
 startGame = () => {
+  gameHeight = Number(document.getElementById("height").value);
+  gameWidth = Number(document.getElementById("width").value);
+  mines = Number(document.getElementById("mines").value);
+  console.log(gameHeight, gameWidth, mines);
   setMinesInMinefieldObject();
   renderGame();
 };
