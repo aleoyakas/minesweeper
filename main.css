@@ -1,0 +1,10 @@
+#game-area {
+  display: grid;
+  /* grid-template-areas: "h1w1 h1w2 h1w3" "h2w1 h2w2 h2w3" "h3w1 h3w2 h3w3"; */
+}
+
+.mine-section {
+  height: 20px;
+  width: 20px;
+  border: 1px solid black;
+}
