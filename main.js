@@ -60,9 +60,9 @@ const addHintsToMinefieldObject = (minefieldObject, coordinates) => {
   return minefieldObject;
 };
 
-const setMinesInMinefieldObject = () => {
+const createMinefieldObject = () => {
   minefield = [];
-  let minesLeft = mines;
+  let minesToPlace = mines;
   let squares = gameWidth * gameHeight;
   for (let i = 0; i < gameHeight; i++) {
     let minefieldRow = new Array(gameWidth).fill("");
@@ -71,14 +71,14 @@ const setMinesInMinefieldObject = () => {
 
   minefield.forEach((row, yIndex) => {
     row.forEach((square, xIndex) => {
-      let likelihoodOfPlacingMine = minesLeft / squares;
+      let likelihoodOfPlacingMine = minesToPlace / squares;
       if (likelihoodOfPlacingMine >= Math.random()) {
         minefield[yIndex][xIndex] = "X";
         minefield = addHintsToMinefieldObject(minefield, {
           x: xIndex,
           y: yIndex
         });
-        minesLeft--;
+        minesToPlace--;
       }
       squares--;
     });
@@ -89,6 +89,6 @@ startGame = () => {
   gameHeight = Number(document.getElementById("height").value);
   gameWidth = Number(document.getElementById("width").value);
   mines = Number(document.getElementById("mines").value);
-  setMinesInMinefieldObject();
+  createMinefieldObject();
   renderGame();
 };
