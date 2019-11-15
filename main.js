@@ -89,7 +89,6 @@ startGame = () => {
   gameHeight = Number(document.getElementById("height").value);
   gameWidth = Number(document.getElementById("width").value);
   mines = Number(document.getElementById("mines").value);
-  console.log(gameHeight, gameWidth, mines);
   setMinesInMinefieldObject();
   renderGame();
 };
