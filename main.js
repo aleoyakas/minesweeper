@@ -2,62 +2,16 @@ let gameWidth;
 let gameHeight;
 let mines;
 let minefield;
+let numLoops = 0;
 
-const generateSquareHTML = (text, x, y) => {
-  let colorStyle = "";
-  switch (text) {
-    case 1:
-      colorStyle = "color:blue";
-      break;
-
-    case 2:
-      colorStyle = "color:green";
-      break;
-    case 3:
-      colorStyle = "color:red";
-      break;
-    case 4:
-      colorStyle = "color:purple";
-      break;
-    default:
-      break;
-  }
-
-  return `<div class=\"mine-section\" id="h${y}w${x}" style="grid-area:h${y}w${x};${colorStyle}">${text}</div>`;
-};
-
-const renderGame = () => {
-  let gameArea = document.getElementById("game-area");
-  let gameHtml = "";
-  let gameAreaStyle = "";
-
-  minefield.forEach((row, yIndex) => {
-    let gameLine = "";
-    row.forEach((square, xIndex) => {
-      gameHtml += generateSquareHTML(square, xIndex, yIndex);
-      gameLine += `h${yIndex}w${xIndex} `;
-    });
-    gameAreaStyle += `"${gameLine.trim()}" `;
-  });
-  gameArea.innerHTML = gameHtml;
-  gameArea.style = `grid-template-areas: ${gameAreaStyle}`;
-};
-
-const addHintsToMinefieldObject = (minefieldObject, coordinates) => {
-  for (let y = coordinates.y - 1; y <= coordinates.y + 1; y++) {
-    for (let x = coordinates.x - 1; x <= coordinates.x + 1; x++) {
-      if (
-        x >= 0 &&
-        y >= 0 &&
-        x < gameWidth &&
-        y < gameHeight &&
-        minefieldObject[y][x] !== "X"
-      ) {
-        minefieldObject[y][x] = +minefieldObject[y][x] + 1;
-      }
-    }
-  }
-  return minefieldObject;
+startGame = () => {
+  numLoops = 0;
+  gameHeight = Number(document.getElementById("height").value);
+  gameWidth = Number(document.getElementById("width").value);
+  mines = Number(document.getElementById("mines").value);
+  createMinefieldObject();
+  renderGame();
+  console.log(numLoops);
 };
 
 const createMinefieldObject = () => {
@@ -65,12 +19,14 @@ const createMinefieldObject = () => {
   let minesToPlace = mines;
   let squares = gameWidth * gameHeight;
   for (let i = 0; i < gameHeight; i++) {
+    numLoops++;
     let minefieldRow = new Array(gameWidth).fill("");
     minefield.push(minefieldRow);
   }
 
   minefield.forEach((row, yIndex) => {
     row.forEach((square, xIndex) => {
+      numLoops++;
       let likelihoodOfPlacingMine = minesToPlace / squares;
       if (likelihoodOfPlacingMine >= Math.random()) {
         minefield[yIndex][xIndex] = "X";
@@ -85,10 +41,59 @@ const createMinefieldObject = () => {
   });
 };
 
-startGame = () => {
-  gameHeight = Number(document.getElementById("height").value);
-  gameWidth = Number(document.getElementById("width").value);
-  mines = Number(document.getElementById("mines").value);
-  createMinefieldObject();
-  renderGame();
+const addHintsToMinefieldObject = (minefieldObject, coordinates) => {
+  for (let y = coordinates.y - 1; y <= coordinates.y + 1; y++) {
+    for (let x = coordinates.x - 1; x <= coordinates.x + 1; x++) {
+      numLoops++;
+      if (
+        x >= 0 &&
+        y >= 0 &&
+        x < gameWidth &&
+        y < gameHeight &&
+        minefieldObject[y][x] !== "X"
+      ) {
+        minefieldObject[y][x] = +minefieldObject[y][x] + 1;
+      }
+    }
+  }
+  return minefieldObject;
+};
+
+const renderGame = () => {
+  let gameArea = document.getElementById("game-area");
+  let gameHtml = "";
+  let gameAreaStyle = "";
+
+  minefield.forEach((row, yIndex) => {
+    let gameLine = "";
+    row.forEach((square, xIndex) => {
+      gameHtml += generateSquareHTML(square, xIndex, yIndex);
+      gameLine += `y${yIndex}x${xIndex} `;
+    });
+    gameAreaStyle += `"${gameLine.trim()}" `;
+  });
+  gameArea.innerHTML = gameHtml;
+  gameArea.style = `grid-template-areas: ${gameAreaStyle}`;
+};
+
+const generateSquareHTML = (text, x, y) => {
+  let colorStyle = "";
+  switch (text) {
+    case 1:
+      colorStyle = "color:blue";
+      break;
+    case 2:
+      colorStyle = "color:green";
+      break;
+    case 3:
+      colorStyle = "color:red";
+      break;
+    case 4:
+      colorStyle = "color:purple";
+      break;
+    default:
+      break;
+  }
+
+  return `<div class=\"mine-section\" id="y${y}x${x}" style="grid-area:y${y}x${x};${colorStyle}">${text}</div>`;
 };
