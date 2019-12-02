@@ -91,6 +91,15 @@ const generateSquareHTML = (text, x, y) => {
     case 4:
       colorStyle = "color:purple";
       break;
+    case 5:
+      colorStyle = "color:maroon";
+      break;
+    case 6:
+      colorStyle = "color:turquoise";
+      break;
+    case 8:
+      colorStyle = "color:gray";
+      break;
     default:
       break;
   }

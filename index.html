@@ -8,14 +8,24 @@
     <link href="./main.css" rel="stylesheet" />
   </head>
   <body>
-    <label for="height">Height</label>
-    <input name="height" id="height" type="number" min="1" value="15" />
-    <label for="width">Width</label>
-    <input name="width" id="width" type="number" min="1" value="15" />
-    <label for="Mines">Mines</label>
-    <input name="mines" id="mines" type="number" min="0" value="30" />
-    <button onClick="startGame()">Start Game</button>
-    <main id="game-area"></main>
+    <header>
+      <h1>Minesweeper</h1>
+    </header>
+    <main>
+      <section id="inputs">
+        <label for="height">Height</label>
+        <input name="height" id="height" type="number" min="1" value="15" />
+        <label for="width">Width</label>
+        <input name="width" id="width" type="number" min="1" value="15" />
+        <label for="Mines">Mines</label>
+        <input name="mines" id="mines" type="number" min="0" value="30" />
+        <button id="start-game" onClick="startGame()">Start Game</button>
+      </section>
+
+      <div id="game">
+        <section id="game-area"></section>
+      </div>
+    </main>
     <script type="text/javascript" src="./main.js"></script>
   </body>
 </html>
